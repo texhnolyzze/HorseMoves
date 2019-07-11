@@ -20,7 +20,7 @@ public class WebConfig {
         ServletRegistrationBean<HttpServlet> bean = new ServletRegistrationBean<>();
         bean.setServlet(servlet);
         bean.setLoadOnStartup(1);
-        bean.addUrlMappings("/hourse/servlet/count/");
+        bean.addUrlMappings("/hourse/servlet/count");
         return bean;
     }
     
