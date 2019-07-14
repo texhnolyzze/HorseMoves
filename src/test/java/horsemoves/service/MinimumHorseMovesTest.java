@@ -33,6 +33,10 @@ public class MinimumHorseMovesTest {
         assertFalse(instance.isValid());
         instance = new MinimumHorseMoves(99999, 99999, "A1", "A2");
         assertFalse(instance.isValid());
+        instance = new MinimumHorseMoves(1000, 1000, "ZZ750", "ZZ750");
+        assertTrue(instance.isValid());
+        instance = new MinimumHorseMoves(2048, 2048, "A1", "2048");
+        assertFalse(instance.isValid());
     }
     
 }

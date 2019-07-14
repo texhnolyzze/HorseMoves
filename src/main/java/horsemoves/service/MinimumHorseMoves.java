@@ -6,9 +6,9 @@ package horsemoves.service;
  */
 public final class MinimumHorseMoves {
 
-    public static final int MAX_DIMENSION = 100000; // width * height
+    public static final int MAX_DIMENSION = 4096 * 4096; // width * height
     
-    private int computationResult = -1;
+    private int computationResult;
     
     public MinimumHorseMoves(int w, int h, String start, String end) {
         if (w <= 0) {
@@ -43,7 +43,7 @@ public final class MinimumHorseMoves {
     
     private String validationInfo = "Valid";
     public boolean isValid() {
-        return computationResult != -1;
+        return validationInfo.equals("Valid");
     }
     
     public String getValidationInfo() {
@@ -63,7 +63,7 @@ public final class MinimumHorseMoves {
         for (int i = 0; i < s.length(); i++) {
             char c = s.charAt(i);
             if (c < 'A' || c > 'Z') {
-                if (c >= '1' && c <= '9') {
+                if (i != 0 && c >= '1' && c <= '9') {
                     try {
                         int line = Integer.parseInt(s.substring(i));
                         return new int[] {column, line};
@@ -71,7 +71,7 @@ public final class MinimumHorseMoves {
                 } else
                     break;
             }
-            column = column * 26 + (s.charAt(i) - 'A' + 1);
+            column = column * 26 + (c - 'A' + 1);
         }
         return null;
     }

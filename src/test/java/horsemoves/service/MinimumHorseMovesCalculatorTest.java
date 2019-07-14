@@ -23,17 +23,17 @@ public class MinimumHorseMovesCalculatorTest {
         int[] start = {1, 1};
         int[] end = {1, 1};
         int moves = MinimumHorseMovesCalculator.compute(w, h, start, end);
-        assertEquals(moves, 0);
+        assertEquals(0, moves);
         w = 8; h = 8;
         start[0] = 1; start[1] = 1;
         end[0] = 6; end[1] = 6;
         moves = MinimumHorseMovesCalculator.compute(w, h, start, end);
-        assertEquals(moves, 4);
+        assertEquals(4, moves);
         w = 1; h = 8;
         start[0] = 1; start[1] = 1;
         end[0] = 1; end[1] = 5;
         moves = MinimumHorseMovesCalculator.compute(w, h, start, end);
-        assertEquals(moves, -1);
+        assertEquals(-1, moves);
     }
     
 }
