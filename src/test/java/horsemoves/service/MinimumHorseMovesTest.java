@@ -31,11 +31,11 @@ public class MinimumHorseMovesTest {
         assertTrue(instance.isValid());
         instance = new MinimumHorseMoves(5, 4, "B-1", "B-2");
         assertFalse(instance.isValid());
-        instance = new MinimumHorseMoves(99999, 99999, "A1", "A2");
+        instance = new MinimumHorseMoves(MinimumHorseMoves.MAX_DIMENSION + 1, MinimumHorseMoves.MAX_DIMENSION + 1, "A1", "A2");
         assertFalse(instance.isValid());
         instance = new MinimumHorseMoves(1000, 1000, "ZZ750", "ZZ750");
         assertTrue(instance.isValid());
-        instance = new MinimumHorseMoves(2048, 2048, "A1", "2048");
+        instance = new MinimumHorseMoves(MinimumHorseMoves.MAX_DIMENSION, MinimumHorseMoves.MAX_DIMENSION, "A1", "2048");
         assertFalse(instance.isValid());
     }
     
