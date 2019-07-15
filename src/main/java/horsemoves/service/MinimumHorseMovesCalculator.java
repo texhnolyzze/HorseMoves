@@ -2,10 +2,8 @@ package horsemoves.service;
 
 import static java.lang.Integer.max;
 import static java.lang.Integer.min;
-import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.Queue;
-import java.util.Set;
 
 /**
  *
@@ -13,18 +11,25 @@ import java.util.Set;
  */
 final class MinimumHorseMovesCalculator {
     
+	private static int to2DArrayHash(int columnIndex, int lineIndex, int columnsNum) {
+        return columnIndex + lineIndex * columnsNum;
+    }
+	
     private static final int[] DX = {-2, -1, 1, 2, -2, -1, 1, 2};
     private static final int[] DY = {-1, -2, -2, -1, 1, 2, 2, 1};
     
 //                                          x, y        x y
     static int compute(int w, int h, int[] start, int[] end) {
-        int[] boundingRect = calcBoundingRect(w, h, start, end);
+        int[] boundingRect = calcBoundingRect(w, h, start, end); // minX, minY, maxX, maxY
+		int minX = boundingRect[0];
+		int minY = boundingRect[1];
+		int newWidth = boundingRect[2] - minX + 1;
+		int newHeight = boundingRect[3] - minY + 1;
         Queue<TimedIntVec2> q = new LinkedList<>();
-        Set<TimedIntVec2> visited = new HashSet<>();
-        TimedIntVec2 startAsVec = new TimedIntVec2(start, 0);
-        visited.add(startAsVec);
-        q.add(startAsVec);
-        TimedIntVec2 temp = new TimedIntVec2(0, 0, 0);
+        boolean[] visited = new boolean[newWidth * newHeight];
+		visited[to2DArrayHash(start[0] - minX, start[1] - minY, newWidth)] = true;
+        q.add(new TimedIntVec2(start, 0));
+        TimedIntVec2 temp = new TimedIntVec2();
         while (!q.isEmpty()) {
             TimedIntVec2 v = q.poll();
             if (v.x == end[0] && v.y == end[1]) 
@@ -33,9 +38,10 @@ final class MinimumHorseMovesCalculator {
             for (int i = 0; i < 8; i++) {  
                 temp.x = v.x + DX[i];
                 temp.y = v.y + DY[i];
-                if (temp.isInside(boundingRect) && !visited.contains(temp)) {  
+				int arrayHash = to2DArrayHash(temp.x - minX, temp.y - minY, newWidth);
+                if (temp.isInside(boundingRect) && !visited[arrayHash]) {  
                     adj = new TimedIntVec2(temp.x, temp.y, v.time + 1);
-                    visited.add(adj);
+                    visited[arrayHash] = true;
                     q.add(adj);  
                 }  
             }  
@@ -60,6 +66,7 @@ final class MinimumHorseMovesCalculator {
         
         int time;
         int x, y;
+		TimedIntVec2() {}
         TimedIntVec2(int[] coords, int time) {this(coords[0], coords[1], time);}
         TimedIntVec2(int x, int y, int time) {
             this.time = time;
@@ -72,23 +79,6 @@ final class MinimumHorseMovesCalculator {
                        x <= boundingRect[2] && y <= boundingRect[3];
         }
         
-        @Override
-        public int hashCode() {
-            int hash = 3;
-            hash = 53 * hash + this.x;
-            hash = 53 * hash + this.y;
-            return hash;
-        }
-
-        @Override
-        public boolean equals(Object obj) {
-            if (this == obj) return true;
-            final TimedIntVec2 other = (TimedIntVec2) obj; // safe cast
-            if (this.x != other.x) return false;
-            return this.y == other.y;
-        }
-        
     }
-    
 
 }
